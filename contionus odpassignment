@@ -1,0 +1,63 @@
+#include <iostream>
+#include <string>
+class BankAccount {
+private:
+    std::string accountNumber;
+    double balance;
+    static double bankFunds; 
+public:
+    // Constructor
+    BankAccount(std::string accountNumber, double initialDeposit) : accountNumber(accountNumber), balance(initialDeposit) {
+        bankFunds += initialDeposit;
+    }
+    double deposit(double amount) {
+        balance += amount;
+        bankFunds += amount;
+        return balance; 
+    }
+    double withdraw(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            bankFunds -= amount;
+            return balance; 
+        } else {
+            std::cout << "Insufficient funds" << std::endl;
+            return balance; 
+        }
+    }
+    static double getBankFunds() {
+        return bankFunds;
+    }
+    std::string getAccountNumber() const {
+        return accountNumber;
+    }
+
+    double getBalance() const {
+        return balance;
+    }
+};
+double BankAccount::bankFunds = 0;
+int main() {
+    std::string accountNum1, accountNum2;
+    double initialDeposit1, initialDeposit2, depositAmount, withdrawalAmount;
+    std::cout << "Enter account number for account 1: ";
+    std::cin >> accountNum1;
+    std::cout << "Enter initial deposit for account 1: ";
+    std::cin >> initialDeposit1;
+    std::cout << "Enter account number for account 2: ";
+    std::cin >> accountNum2;
+    std::cout << "Enter initial deposit for account 2: ";
+    std::cin >> initialDeposit2;
+    BankAccount account1(accountNum1, initialDeposit1);
+    BankAccount account2(accountNum2, initialDeposit2);
+    std::cout << "Total bank funds: " << BankAccount::getBankFunds() << std::endl;
+    std::cout << "Enter deposit amount for account 1: ";
+    std::cin >> depositAmount;
+    account1.deposit(depositAmount);
+    std::cout << "Total bank funds after deposit: " << BankAccount::getBankFunds() << std::endl;
+    std::cout << "Enter withdrawal amount for account 2: ";
+    std::cin >> withdrawalAmount;
+    account2.withdraw(withdrawalAmount);
+    std::cout << "Total bank funds after withdrawal: " << BankAccount::getBankFunds() << std::endl;
+    return 0;
+}
